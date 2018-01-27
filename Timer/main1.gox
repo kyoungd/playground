@@ -1,0 +1,43 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	nc := make(chan int)
+	stopc := make(chan bool)
+
+	go SlowCounter(2, nc, stopc)
+	time.Sleep(15 * time.Second)
+
+	nc <- 2
+	time.Sleep(6 * time.Second)
+
+	stopc <- true
+	time.Sleep(1 * time.Second)
+}
+
+// It counts in number of seconds while doing operatino.
+func SlowCounter(n int, nc chan int, stopc chan bool) {
+	i := 0
+	d := time.Duration(n) * time.Second
+Loop:
+	for {
+		select {
+		case <-time.After(d):
+			// t := time.NewTimer(d)
+			// <-t.C
+			i++
+			fmt.Println(i)
+		case n = <-nc:
+			fmt.Println("Timer duratin changed to ", n)
+			d = time.Duration(n) * time.Second
+		case <-stopc:
+			fmt.Println("Timer stopped")
+			break Loop
+		}
+	}
+	fmt.Println("Exiting slow counter")
+}

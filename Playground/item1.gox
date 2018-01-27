@@ -1,0 +1,76 @@
+package main
+
+import "fmt"
+
+// this is commented
+type CMember struct {
+	name      string
+	age       int
+	address   string
+	rank      string
+	clearance int
+}
+
+func (cm CMember) PrintSecurityClearance() {
+	fmt.Println("CLEARANCE: ", cm.clearance)
+}
+
+func main() {
+
+	s := []int{2, 3, 5, 7, 11, 13}
+
+	s1 := s[1:4]
+	fmt.Println(s1)
+
+	s2 := s[:2]
+	fmt.Println(s2)
+
+	s3 := s[1:]
+	fmt.Println(s3)
+
+	a := make([]int, 10)
+	a[0] = 1
+	a[1] = 2
+
+	cm1 := CMember{"Kevin", 32, "1234 Any Street", "Captain", 5}
+
+	cm1.PrintSecurityClearance()
+
+	// cm2 := CMember{
+	// 	name:      "Kevin",
+	// 	age:       32,
+	// 	address:   "1234 Any Street",
+	// 	rank:      "Captain",
+	// 	clearance: 5,
+	// }
+	// var cm3 CMember
+	// cm3.name = "Kevin"
+	// cm3.age = 32
+	// cm3.address = "1234 Any Street"
+	// cm3.rank = "Captain"
+	// cm3.clearance = 5
+
+	// var m map[string]CMember
+	// m = make(map[string]CMember)
+	// m["emp101"] = cm1
+
+	// var m map[string]CMember
+	m := map[string]CMember{
+		"emp02": CMember{name: "Kevin", age: 32, address: "1234 Any Street", rank: "Captain", clearance: 5},
+		"emp01": cm1,
+	}
+
+	for k, v := range m {
+		fmt.Println("Key: ", k, "  Value: ", v)
+	}
+
+	// cmp := &cm1
+	// cmp.clearance = 4
+
+	// var crew []CMember
+	// crew = append(crew, cm1, cm2, cm3, CMember{"Kevin", 32, "1234 Any Street", "Captain", 5})
+	// for i, v := range crew {
+	// 	fmt.Println(i, v)
+	// }
+
+}
