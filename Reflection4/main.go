@@ -10,6 +10,7 @@ func main() {
 		Field1 int     `alias:"f1" desc:"field number 1"`
 		Field2 string  `alias:"f2" desc:"field number 2"`
 		Field3 float64 `alias:"f3" desc:"field number 3"`
+		Field4 bool    `alias:"f4" desc:"field nubmer 4"`
 	}
 
 	mys := myStruct{2, "hello", 2.4}

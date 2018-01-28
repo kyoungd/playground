@@ -1,0 +1,18 @@
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	s := []string{"a", "f", "e", "b"}
+	sort.Strings(s)
+	fmt.Println(s)
+
+	i := []int{1, 9, 5, 3}
+	sort.Ints(i)
+	fmt.Println(i)
+
+	fmt.Println("Is int sorted ", sort.IntsAreSorted(i))
+}

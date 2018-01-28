@@ -1,0 +1,13 @@
+package main
+
+import "database/sql"
+
+var sqlOpen = sql.Open
+
+func main() {
+	db, err := sqlOpen("sqlite3", "~/my.db")
+	if err != nil {
+		panic()
+	}
+	db.close()
+}

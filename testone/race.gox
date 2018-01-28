@@ -1,0 +1,11 @@
+package racing
+
+import "fmt"
+
+func F() {
+	var x int
+	go func() {
+		x = 5
+	}()
+	fmt.Println(x)
+}

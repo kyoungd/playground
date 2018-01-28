@@ -1,0 +1,17 @@
+package main
+import (
+    "errors"
+    "testing"
+)
+
+func TestMain(t *testing.T) {
+    // set oldSqlOpen to old sqlOpen 
+    oldSqlOpen := sqlOpen
+    // as we are exiting, revert sqlOpen back to oldSqlOpen at end of function
+    defer func () { sqlOpen = oldSqlOpen }()
+    sqlOpen = func (driver, conn string) (*sql.DB, error) {
+        return nil, errors.New("failed to connect to db")
+    }
+    main()
+    // assertion for main panicing
+}
