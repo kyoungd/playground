@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"pacman/microservice/api"
+	"src/playground/microservice/api"
 )
 
 func main() {
