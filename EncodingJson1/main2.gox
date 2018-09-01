@@ -7,45 +7,48 @@ import (
 	"os"
 )
 
-type CrewMember struct {
+type tCrewMember struct {
 	ID                int
 	Name              string
 	SecurityClearance int
 	AccessCodes       []string
 }
 
-type ShipInfo struct {
+type tShipInfo struct {
 	ShipID    int
 	ShipClass string
-	Captain   CrewMember
+	Captain   tCrewMember
 }
 
 func main() {
-	f, err := os.Create("jfile.json")
-	PrintFatalError(err)
-	defer f.Close()
-
-	cm := CrewMember{1000001, "Jaro", 10, []string{"ADA", "LAL"}}
-	si := ShipInfo{1001, "Figther", cm}
-
-	err = json.NewEncoder(f).Encode(si)
-	PrintFatalError(err)
-
-	ReadFile()
+	writeFile()
+	readFile()
 }
 
-func ReadFile() {
-	f, err := os.Open("jfile.json")
-	PrintFatalError(err)
+func writeFile() {
+	f, err := os.Create("jfile.json")
+	printFatalError(err)
 	defer f.Close()
 
-	s0 := new(ShipInfo)
+	cm := tCrewMember{1000001, "Jaro", 10, []string{"ADA", "LAL"}}
+	si := tShipInfo{1001, "Figther", cm}
+
+	err = json.NewEncoder(f).Encode(si)
+	printFatalError(err)
+}
+
+func readFile() {
+	f, err := os.Open("jfile.json")
+	printFatalError(err)
+	defer f.Close()
+
+	s0 := new(tShipInfo)
 	err = json.NewDecoder(f).Decode(s0)
-	PrintFatalError(err)
+	printFatalError(err)
 	fmt.Println(s0)
 }
 
-func PrintFatalError(err error) {
+func printFatalError(err error) {
 	if err != nil {
 		log.Fatal("Error happend. ", err)
 	}

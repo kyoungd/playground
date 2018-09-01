@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
-	"young/FactoryPattern/appliances"
+	"playground/FactoryPattern/appliances"
 )
 
+// the stdin does not work with debugger.
+// run it in the bash prompt screen.
+// go run src/playground/FactoryPattern/main.go
 func main() {
 	fmt.Println("Enter preferred appliance type")
 	fmt.Println("0: Stove")

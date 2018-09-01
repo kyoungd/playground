@@ -1,0 +1,29 @@
+package main
+
+import (
+	"fmt"
+	"playground/HydrogenConfigurator"
+)
+
+type Confs struct {
+	TS      string  `name:"testString" json:"testString" xml:"testString"`
+	TB      bool    `name:"testBool" json:"testBool" xml:"testBool"`
+	TF      float64 `name:"testFloat" json:"testFloat" xml:"testFloat"`
+	TestInt int
+}
+
+func main() {
+	configstruct := new(Confs)
+	// HydrogenConfigurator.GetConfiguration(HydrogenConfigurator.CUSTOM, configstruct, "configfile.conf")
+	// HydrogenConfigurator.GetConfiguration(HydrogenConfigurator.JSON, configstruct, "configfile.json")
+	HydrogenConfigurator.GetConfiguration(HydrogenConfigurator.XML, configstruct, "configfile.xml")
+	fmt.Println(*configstruct)
+
+	if configstruct.TB {
+		fmt.Println("bool is true")
+	}
+
+	fmt.Println(float64(4.8 * configstruct.TF))
+	fmt.Println(5 * configstruct.TestInt)
+	fmt.Println(configstruct.TS)
+}

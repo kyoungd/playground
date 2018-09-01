@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+type Node struct {
+	next  *Node
+	value int
+}
+
+var rootNode *Node
+
+func (n *Node) nextNode() *Node {
+	if n != nil {
+		return n.next
+	}
+	return nil
+}
+
+func (n *Node) setValue(val int) {
+	n.value = val
+}
+
+func (n *Node) getValue() (int, error) {
+	return n.value, nil
+}
+
+func (n *Node) addNode(rootNode *Node, ix int) *Node {
+	cn := rootNode
+	for cn.nextNode() != nil {
+		cn = cn.nextNode()
+	}
+	p := new(Node)
+	p.setValue(ix)
+	if cn == nil {
+		rootNode = p
+	} else {
+		cn.next = p
+	}
+	return p
+}
+
+func (n Node) String() string {
+	var xt string
+	for cn := rootNode; cn != nil; cn = cn.nextNode() {
+		x, _ := cn.getValue()
+		xs := strconv.Itoa(x)
+		xt = xt + xs + " "
+	}
+	return xt
+}
+
+func main() {
+	var p *Node
+	rootNode = rootNode.addNode(nil, 1)
+	p = rootNode.addNode(rootNode, 2)
+	p = rootNode.addNode(p, 3)
+	p = rootNode.addNode(p, 4)
+	p = rootNode.addNode(p, 5)
+	fmt.Println(rootNode)
+}

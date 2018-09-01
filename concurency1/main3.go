@@ -17,11 +17,11 @@ type findError struct {
 }
 
 func (e findError) Error() string {
-	return e.Msg
+	return e.Server + "-" + e.Name + " " + e.Msg
 }
 
 func findSC(name, server string) (int, error) {
- 	time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+	time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
 	if v, ok := scMapping[name]; !ok {
 		return -1, findError{name, server, "Crew member not found"}
 	} else {
@@ -32,11 +32,14 @@ func findSC(name, server string) (int, error) {
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	defer func() {
-		if err != recover(); err != {
+		if err := recover(); err != nil {
 			fmt.Println("A panic recovered ", err)
 		}
+	}()
+	clearance, err := findSC("Ruko", "Server 1")
+	if err != nil {
+		panic("Akkkk!!! " + err.Error())
 	}
-	clearance, err := find("Ruko", "Server 1")
 	fmt.Println("Clearance level found: ", clearance, " error code: ", err)
 }
 

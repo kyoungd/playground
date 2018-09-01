@@ -8,9 +8,16 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+//
+// call this routine with -op, -u, -p
+// $ go run src/playground/DBBoltDB1/main.go -op Add -u young -p password
+// $ go run src/playground/DBBoltDB1/main.go -op GET -u young
+//
 func main() {
 	db, err := bolt.Open("hydra.db", 0600, nil)
-	PrintFatalError(err)
+	if err != nil {
+		PrintFatalError(err)
+	}
 	defer func() {
 		db.Close()
 		if r := recover(); r != nil {

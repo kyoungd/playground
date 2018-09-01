@@ -7,18 +7,22 @@ package main
 
 import "fmt"
 
+// x <-chan string (input)
+// x chan<- string (output)
+// confusing.  left is input.  right is output.
+
 // This `ping` function only accepts a channel for sending
 // values. It would be a compile-time error to try to
 // receive on this channel.
 func ping(pings chan<- string, msg string) {
-	pings <- msg
+	pings <- "ping " + msg
 }
 
 // The `pong` function accepts one channel for receives
 // (`pings`) and a second for sends (`pongs`).
 func pong(pings <-chan string, pongs chan<- string) {
 	msg := <-pings
-	pongs <- msg
+	pongs <- "pong " + msg
 }
 
 func main() {

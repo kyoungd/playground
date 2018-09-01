@@ -5,23 +5,23 @@ import (
 	"fmt"
 )
 
+type tCrewMember struct {
+	ID                int
+	Name              string
+	SecurityClearance int
+	AccessCodes       []string
+}
+
+type tShipInfo struct {
+	ShipID    int
+	ShipClass string
+	Captain   tCrewMember
+}
+
 func main() {
 
-	type CrewMember struct {
-		ID                int
-		Name              string
-		SecurityClearance int
-		AccessCodes       []string
-	}
-
-	type ShipInfo struct {
-		ShipID    int
-		ShipClass string
-		Captain   CrewMember
-	}
-
-	cm := CrewMember{11, "Jaro", 10, []string{"abc123", "bcd234"}}
-	si := ShipInfo{1, "Fighter", cm}
+	cm := tCrewMember{11, "Jaro", 10, []string{"abc123", "bcd234"}}
+	si := tShipInfo{1, "Fighter", cm}
 
 	bytesRep, err := json.Marshal(&si)
 	if err != nil {
@@ -39,7 +39,7 @@ func main() {
 	}
 	fmt.Println(string(bm))
 
-	s := []CrewMember{cm, CrewMember{2, "Jim", 5, []string{"TLT", "RAR"}}}
+	s := []tCrewMember{cm, tCrewMember{2, "Jim", 5, []string{"TLT", "RAR"}}}
 	bSlice, err := json.Marshal(s)
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -48,7 +48,7 @@ func main() {
 	fmt.Println(string(bSlice))
 
 	fmt.Println(" UNMARSHALL <<<<<<<<<<<<<<<<<< ")
-	si0 := new(ShipInfo)
+	si0 := new(tShipInfo)
 	json.Unmarshal(bytesRep, si0)
 	fmt.Println(si0)
 
@@ -56,7 +56,7 @@ func main() {
 	json.Unmarshal(bm, &m0)
 	fmt.Println(m0)
 
-	b0 := []CrewMember{}
+	b0 := []tCrewMember{}
 	json.Unmarshal(bSlice, &b0)
 	fmt.Printf("%#v", b0)
 }

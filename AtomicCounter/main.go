@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+// atomic is a class that is used for multithreading programming to gurantee that a variable is not corrupted between interrupt cycles.
+// it syncs multitple threads to not collide for a same variable.
 func main() {
 	var ops uint64
 

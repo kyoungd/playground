@@ -11,6 +11,10 @@ type TMyFloat struct {
 	Z float64
 }
 
+func ReflectSetInt(v interface{}) {
+
+}
+
 func main() {
 	var myFloat TMyFloat
 	myFloat.X = 5.6

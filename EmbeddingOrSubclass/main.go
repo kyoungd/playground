@@ -6,12 +6,16 @@ import (
 	"time"
 )
 
+// rand.Rand is a type Rand.  It is not a function.
+// rand.New() returns a Rand type.
+// Rand.Intn or other type of random numbe rgenerator can be used after that.
 type customRand struct {
 	*rand.Rand
 	count int
 }
 
-func NewCustomRand(i int64) *customRand {
+// newCustomRand subclasses customRand
+func newCustomRand(i int64) *customRand {
 	return &customRand{
 		Rand:  rand.New(rand.NewSource(i)),
 		count: 0,
@@ -28,8 +32,10 @@ func (cr *customRand) GetCount() int {
 }
 
 func main() {
-	cr := NewCustomRand(time.Now().UnixNano())
+	cr := newCustomRand(time.Now().UnixNano())
+	fmt.Println(cr.RandRange(5, 30))
+	fmt.Println(cr.RandRange(5, 30))
 	fmt.Println(cr.RandRange(5, 30))
 	fmt.Println(cr.Intn(10))
-	fmt.Println(GetCount())
+	fmt.Println(cr.GetCount())
 }

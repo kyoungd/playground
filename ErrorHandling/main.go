@@ -41,6 +41,8 @@ func main() {
 	// }()
 	if clearance, err := findSC("Ruko", "Server 1"); err != nil {
 		fmt.Println("Error occured while searching ", err)
+		msg := err.Error()
+		fmt.Println(msg)
 		if v, ok := err.(findError); ok {
 			fmt.Println("Server name ", v.Server)
 			fmt.Println("Crew mebmer name ", v.Name1)

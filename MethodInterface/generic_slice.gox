@@ -1,0 +1,42 @@
+package main
+
+import (
+	"fmt"
+)
+
+// Container is the generic container that holds generic data.
+type Container []interface{}
+
+// Put method add a generic item to the slice
+func (c *Container) Put(elem interface{}) {
+	*c = append(*c, elem)
+}
+
+// Get method removes an item from a slice and returns it.
+func (c *Container) Get() interface{} {
+	elem := (*c)[0]
+	*c = (*c)[1:]
+	return elem
+}
+
+func main() {
+	stringContainer := &Container{}
+	stringContainer.Put("hello")
+	stringContainer.Put("there")
+	stringContainer.Put("Young")
+	elem, ok := stringContainer.Get().(string)
+	if !ok {
+		fmt.Println("Unable to read a string from stringContainer")
+	}
+	fmt.Printf("assertExample: %s (%T)\n", elem, elem)
+
+	// intContainer := &Container{}
+	// intContainer.Put(42)
+	// intContainer.Put(7)
+	// intContainer.Put(121)
+	// elem, ok := intContainer.Get().(int)
+	// if !ok {
+	// 	fmt.Println("Unable to read an int from intContainer")
+	// }
+	// fmt.Printf("assertExample: %d (%T)\n", elem, elem)
+}

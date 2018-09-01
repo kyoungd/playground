@@ -25,19 +25,42 @@ type ShipInfo struct {
 	Captain   CrewMember
 }
 
+func crewMemberAction(personnel *mgo.Collection, action string) {
+	var err error
+
+	switch action {
+	case "insert":
+		// insert
+		newcr := CrewMember{ID: 10005, Name: "Keyla", SecurityClearance: 4, AccessCodes: []string{"CDF", "XYZ"}}
+		err = personnel.Insert(newcr)
+		PrintFatalError(err)
+	case "update":
+		// update
+		err = personnel.Update(bson.M{"id": 10001}, bson.M{"$set": bson.M{"name": "Kenobi"}})
+		PrintFatalError(err)
+	case "delete":
+		// delete
+		err = personnel.Remove(bson.M{"id": 10005})
+		PrintFatalError(err)
+	default:
+	}
+}
+
 func main() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println(r)
 		}
 	}()
-	// session, err := mgo.Dial("localhost")
-	session, err := mgo.Dial("mongodb://127.0.0.1")
+	session, err := mgo.Dial("localhost:27017")
+	// session, err := mgo.Dial("mongodb://127.0.0.1")
 	PrintFatalError(err)
 	defer session.Close()
 
 	// reference collection
 	personnel := session.DB("Hydra").C("Personnel")
+
+	crewMemberAction(personnel, "") // do nothing
 
 	// GEt number of documents in the collection
 	n, _ := personnel.Count()
@@ -50,34 +73,13 @@ func main() {
 
 	// Query with expression
 	query := bson.M{
-		"clearanceLevel": bson.M{
-			"$gt": 3,
-		},
+		"clearanceLevel": bson.M{"$gt": 3},
 	}
 
 	var crew Crew
 	err = personnel.Find(query).All(&crew)
 	PrintFatalError(err)
 	fmt.Println(crew)
-
-	// insert
-	/*
-		newcr := CrewMember{ID: 10005, Name: "Keyla", SecurityClearance: 4, AccessCodes: []string{"CDF", "XYZ"}}
-		err = personnel.Insert(newcr)
-		PrintFatalError(err)
-	*/
-
-	// update
-	/* ---
-	err = personnel.Update(bson.M{"id": 10001}, bson.M{"$set": bson.M{"name": "Kenobi"}})
-	PrintFatalError(err)
-	--- */
-
-	// delete
-	/* ---
-	err = personnel.Remove(bson.M{"id": 10005})
-	PrintFatalError(err)
-	--- */
 
 	// select columns
 	names := []struct {
@@ -91,12 +93,12 @@ func main() {
 	count, _ := personnel.Count()
 	wg.Add(count)
 	for i := 10001; i <= 10000+count; i++ {
-		go readId(i, session.Copy(), &wg)
+		go readID(i, session.Copy(), &wg)
 	}
 	wg.Wait()
 }
 
-func readId(id int, ses *mgo.Session, wg *sync.WaitGroup) {
+func readID(id int, ses *mgo.Session, wg *sync.WaitGroup) {
 	defer func() {
 		ses.Close()
 		wg.Done()
@@ -110,6 +112,7 @@ func readId(id int, ses *mgo.Session, wg *sync.WaitGroup) {
 
 func PrintFatalError(err error) {
 	if err != nil {
-		panic(fmt.Sprint("Error happend. %s", err))
+		msg := fmt.Sprintf("Error happend. %s", err)
+		panic(msg)
 	}
 }
